@@ -27,4 +27,20 @@ public class StringCalculatorShould {
         StringCalculator stringCalculator = new StringCalculator();
         assertEquals(3, stringCalculator.add("1,2"));
     }
+
+
+    @Test
+    @DisplayName("Multiple numbers with new line delimiter should return sum")
+    void string_with_newline_between_numbers_should_return_their_sum() {
+        StringCalculator stringCalculator = new StringCalculator();
+        assertEquals(6, stringCalculator.add("1\n2,3"));
+        assertEquals(10, stringCalculator.add("1\n2,3\n4"));
+    }
+
+    @Test
+    @DisplayName("Add numbers with different delimiter should return the sum")
+    void string_with_different_delimiters_should_return_their_sum() {
+        StringCalculator stringCalculator = new StringCalculator();
+        assertEquals(3, stringCalculator.add("//;\n1;2"));
+    }
 }
