@@ -72,4 +72,16 @@ public class StringCalculatorShould {
         assertEquals(1005, stringCalculator.add("5,1000"));
     }
 
+    @Test
+    @DisplayName("Any length delimiter return sum")
+    void string_with_any_length_delimiter_should_return_their_sum() {
+        assertEquals(6, stringCalculator.add("//[***]\n1***2***3"));
+    }
+
+    @Test
+    @DisplayName("Multiple Delimiters with length longer than one char")
+    void string_with_multiple_delimiters_should_return_their_sum() {
+        assertEquals(6, stringCalculator.add("//[*][%]\n1*2%3"));
+    }
+
 }
