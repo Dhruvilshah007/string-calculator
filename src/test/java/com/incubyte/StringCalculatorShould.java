@@ -1,5 +1,7 @@
 package com.incubyte;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -8,24 +10,34 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class StringCalculatorShould {
 
+    private StringCalculator stringCalculator;
+
+    @BeforeEach
+    void setUp() {
+        stringCalculator = new StringCalculator();
+    }
+
+    @AfterEach
+    void tearDown() {
+        stringCalculator = null;
+    }
+
+
     @Test
     @DisplayName("Empty string should return 0")
     void empty_string_should_return_0() {
-        StringCalculator stringCalculator = new StringCalculator();
         assertEquals(0, stringCalculator.add(""));
     }
 
     @Test
     @DisplayName("Single number should return number as int")
     void string_with_single_number_should_return_number_as_int() {
-        StringCalculator stringCalculator = new StringCalculator();
         assertEquals(1, stringCalculator.add("1"));
     }
 
     @Test
     @DisplayName("Multiple numbers should return sum")
     void string_with_multiple_number_should_return_sum() {
-        StringCalculator stringCalculator = new StringCalculator();
         assertEquals(3, stringCalculator.add("1,2"));
     }
 
@@ -33,7 +45,6 @@ public class StringCalculatorShould {
     @Test
     @DisplayName("Multiple numbers with new line delimiter should return sum")
     void string_with_newline_between_numbers_should_return_their_sum() {
-        StringCalculator stringCalculator = new StringCalculator();
         assertEquals(6, stringCalculator.add("1\n2,3"));
         assertEquals(10, stringCalculator.add("1\n2,3\n4"));
     }
@@ -41,7 +52,6 @@ public class StringCalculatorShould {
     @Test
     @DisplayName("Add numbers with different delimiter should return the sum")
     void string_with_different_delimiters_should_return_their_sum() {
-        StringCalculator stringCalculator = new StringCalculator();
         assertEquals(3, stringCalculator.add("//;\n1;2"));
     }
 
@@ -49,11 +59,10 @@ public class StringCalculatorShould {
     @Test
     @DisplayName("Adding negative number should throw exception")
     void string_with_negative_numbers_should_throw_exception_with_message() {
-        StringCalculator stringCalculator = new StringCalculator();
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             stringCalculator.add("1,-2,3");
         });
-        assertEquals("negatives not allowed: -2", exception.getMessage());
+        assertEquals("negative numbers not allowed: -2", exception.getMessage());
     }
-    
+
 }

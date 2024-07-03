@@ -34,7 +34,7 @@ public class StringCalculator {
 
         if (!negativeNumbers.isEmpty()) {
 
-            StringBuilder messageBuilder = new StringBuilder("negatives not allowed: ");
+            StringBuilder messageBuilder = new StringBuilder("negative numbers not allowed: ");
             for (int negNumber : negativeNumbers) {
                 messageBuilder.append(negNumber).append(", ");
             }
