@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class StringCalculatorShould {
 
@@ -43,4 +44,16 @@ public class StringCalculatorShould {
         StringCalculator stringCalculator = new StringCalculator();
         assertEquals(3, stringCalculator.add("//;\n1;2"));
     }
+
+
+    @Test
+    @DisplayName("Adding negative number should throw exception")
+    void string_with_negative_numbers_should_throw_exception_with_message() {
+        StringCalculator stringCalculator = new StringCalculator();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            stringCalculator.add("1,-2,3");
+        });
+        assertEquals("negatives not allowed: -2", exception.getMessage());
+    }
+    
 }
