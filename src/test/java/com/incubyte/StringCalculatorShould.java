@@ -21,7 +21,10 @@ public class StringCalculatorShould {
         assertEquals(1, stringCalculator.add("1"));
     }
 
-
-
-
+    @Test
+    @DisplayName("Multiple numbers should return sum")
+    void string_with_multiple_number_should_return_sum() {
+        StringCalculator stringCalculator = new StringCalculator();
+        assertEquals(3, stringCalculator.add("1,2"));
+    }
 }
