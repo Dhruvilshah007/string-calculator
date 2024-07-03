@@ -1,7 +1,5 @@
 package com.incubyte;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,13 +13,14 @@ public class StringCalculator {
         String[] numArr;
 
         if (numbers.startsWith("//")) {
-            // If numbers starts with //
 
+            // If numbers is starts with // - custom delimiters
             int lineEnd = numbers.indexOf('\n');
             String delimiterStr = numbers.substring(2, lineEnd);
 
             String numberStr = numbers.substring(lineEnd + 1);
             String[] delimArr = delimiterStr.split("\\]\\[");
+
             int delimLen = delimArr.length;
 
             String firstDelim = delimArr[0];
@@ -30,49 +29,30 @@ public class StringCalculator {
             String lastDelim = delimArr[delimLen - 1];
             delimArr[delimLen - 1] = lastDelim.endsWith("]") ? lastDelim.substring(0, lastDelim.lastIndexOf("]"))
                     : lastDelim;
-            
+
             // Q is Quote treats all characters equally
             // E is end of section
             String regex = Stream.of(delimArr)
                     .map(str -> "\\Q" + str + "\\E")
                     .collect(Collectors.joining("|"));
-
             numArr = numberStr.split(regex);
-        }else{
+        } else {
             //default delimiter
             numArr = numbers.split(delimiter);
         }
 
-        return calculateSum(numArr);
-    }
-
-    private static int calculateSum(String[] numbers) {
-        int sum = 0;
-        List<Integer> negativeNumbers = new ArrayList<>();
-
-        for (String number : numbers) {
-            int num = Integer.parseInt(number);
-            if (num < 0) {
-                negativeNumbers.add(num);
-            }else if (num <= 1000) {
-                sum += num;
-            }
-        }
-
+        //Negative numbers exception
+        String negativeNumbers = Stream.of(numArr)
+                .filter(num -> num.startsWith("-"))
+                .collect(Collectors.joining(","));
         if (!negativeNumbers.isEmpty()) {
-
-            StringBuilder messageBuilder = new StringBuilder("negative numbers not allowed: ");
-            for (int negNumber : negativeNumbers) {
-                messageBuilder.append(negNumber).append(", ");
-            }
-
-            // Remove the trailing comma and space
-            messageBuilder.setLength(messageBuilder.length() - 2);
-            throw new IllegalArgumentException(messageBuilder.toString());
+            throw new IllegalArgumentException("negative numbers not allowed: " + negativeNumbers);
         }
 
-        return sum;
+        // Sum and 1000 condition
+        return Stream.of(numArr).filter(num -> num.matches("[0-9]+"))
+                .map(Integer::parseInt)
+                .filter(num -> num <= 1000)
+                .reduce(0, (acc, curr) -> acc + curr);
     }
-
-
 }
