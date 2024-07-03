@@ -65,4 +65,11 @@ public class StringCalculatorShould {
         assertEquals("negative numbers not allowed: -2", exception.getMessage());
     }
 
+    @Test
+    @DisplayName("Numbers greater than 1000 should be ignored")
+    void string_with_numbers_greater_than_1000_should_be_ignored_in_sum() {
+        assertEquals(2, stringCalculator.add("2,1001"));
+        assertEquals(1005, stringCalculator.add("5,1000"));
+    }
+
 }
